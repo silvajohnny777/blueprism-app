@@ -4,10 +4,12 @@ import { RootState } from '../../GlobalRedux/store';
 import { ScheduleTypes } from '../../App';
 import { setSearchValue } from '../../GlobalRedux/schedulesSlice'; 
 import ScheduleItem from '../ScheduleItem';
+import ScheduleItemLoader from '../ScheduleItemLoader';
 
 const Schedules: React.FC = () => {
   const dispatch = useDispatch();
   const schedules = useSelector((state: RootState) => state.schedules.data);
+  const isLoading = useSelector((state: RootState) => state.schedules.isLoadingSchedules);
   const scheduleSearch = useSelector((state: RootState) => state.schedules.searchValue);
 
   const filteredSchedules = scheduleSearch.length > 0 ? 
@@ -24,7 +26,7 @@ const Schedules: React.FC = () => {
             </svg>
           </div>
           <input
-            className='shadow appearance-none border rounded-full w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-[15px] pl-[40px]'
+            className='shadow appearance-none border rounded-full w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-[15px] pl-[40px] w-[335px]'
             type="text"
             placeholder="Search a schedule"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setSearchValue(e.target.value))}
@@ -33,15 +35,22 @@ const Schedules: React.FC = () => {
       </div>
       <div className="block flex overflow-auto md:flex-col">
       {
-        filteredSchedules.length > 0 ? 
-          filteredSchedules.map((schedule: ScheduleTypes) => (        
-            <ScheduleItem key={schedule.id} schedule={schedule} />
-          ))
+        isLoading ?
+          <React.Fragment>
+            <ScheduleItemLoader />
+            <ScheduleItemLoader />
+            <ScheduleItemLoader />
+          </React.Fragment>          
         :
-          scheduleSearch.length > 0 ?
-            <p className="break-words">Schedule <span className="font-bold">{scheduleSearch}</span> not found!</p>
-        :
-          'No schedules'
+          filteredSchedules.length > 0 ? 
+            filteredSchedules.map((schedule: ScheduleTypes) => (        
+              <ScheduleItem key={schedule.id} schedule={schedule} />
+            ))
+          :
+            scheduleSearch.length > 0 ?
+              <p className="break-words">Schedule <span className="font-bold">{scheduleSearch}</span> not found!</p>
+          :
+            'No schedules'
       }
       </div>
     </div>

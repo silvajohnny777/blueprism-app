@@ -58,7 +58,7 @@ schedules: {
       },
     ],
     filteredScheduleID: 9051957,
-    searchValue: '0.1631'
+    searchValue: ''
   },
 };
 export const store = mockStore(initialState);

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setSchedules } from './GlobalRedux/schedulesSlice';
-import { setScheduleLogs } from './GlobalRedux/scheduleLogsSlice'
+import { setSchedules, setIsLoadingSchedules } from './GlobalRedux/schedulesSlice';
+import { setScheduleLogs, setIsLoadingLogsSchedules } from './GlobalRedux/scheduleLogsSlice'
 import Header from './components/Header';
 import Schedules from './components/Schedules';
 import Main from './components/Main';
@@ -37,10 +37,12 @@ const App:React.FC = () => {
   const dispatch = useDispatch();
 
     const getSchedules = async () => {
+      dispatch(setIsLoadingSchedules(true))
       try {
         const response = await axios.get<ScheduleTypes[]>('http://localhost:3000/schedules');
         if (response.status === 200) {
           dispatch(setSchedules(response.data));
+          dispatch(setIsLoadingSchedules(false))
         } else {
           alert('API Error');
         }
@@ -50,10 +52,12 @@ const App:React.FC = () => {
     };
   
     const getScheduleLogs = async () => {
+      dispatch(setIsLoadingLogsSchedules(true))
       try {
         const response = await axios.get<ScheduleLogTypes[]>('http://localhost:3000/scheduleLogs');
         if (response.status === 200) {
           dispatch(setScheduleLogs(response.data));
+          dispatch(setIsLoadingLogsSchedules(false))
         } else {
           alert('API Error');
         }

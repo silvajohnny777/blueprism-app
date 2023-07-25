@@ -4,6 +4,7 @@ import React from 'react'
 import { RootState } from '../../GlobalRedux/store';
 import ScheduleLogItem from '../ScheduleLogItem';
 import { setSearchLogValue } from '../../GlobalRedux/scheduleLogsSlice'
+import ScheduleLogItemLoader from '../ScheduleLogItemLoader';
 
 const Main: React.FC = () => {
 
@@ -11,6 +12,7 @@ const Main: React.FC = () => {
     const logSearch = useSelector((state: RootState) => state.scheduleLogs.searchLogValue);
 
     const schedulesLogs = useSelector((state: RootState) => state.scheduleLogs.data);
+    const isLoading = useSelector((state: RootState) => state.scheduleLogs.isLoadingLogsSchedules);
     const schedules = useSelector((state: RootState) => state.schedules.data);
     const filteredScheduleID = useSelector((state: RootState) => state.schedules.filteredScheduleID);
 
@@ -34,7 +36,7 @@ const Main: React.FC = () => {
 
         <div className="h-[calc(100vh-100px)] overflow-auto p-[10px] w-[100%]">
             <h2 className="text-[20px] font-bold mb-[25px]">
-                {filteredSchedulesLogs.length > 0 ? `${filteredSchedulesLogs.length} logs being shown ${filteredScheduleID ? `for schedule ${filteredScheduleID}` : ''}` : filteredScheduleID ? `` : `No logs were found!`}</h2>
+                {isLoading ? 'Getting logs...' : filteredSchedulesLogs.length > 0 ? `${filteredSchedulesLogs.length} logs being shown ${filteredScheduleID ? `for schedule ${filteredScheduleID}` : ''}` : filteredScheduleID ? `` : `No logs were found!`}</h2>
             {
                 !filteredScheduleID &&
                     <div className="relative w-[300px]">
@@ -53,13 +55,22 @@ const Main: React.FC = () => {
                     </div>
             }
             <div className="flex flex-wrap group justify-between h-fit-content">
-                {filteredSchedulesLogs.map((log: ScheduleLogTypes) => {
-                    const scheduleMatchID = retiredIDs.findIndex((retired: ScheduleTypes) => retired.id === log.scheduleId)
-                        return (
-                            <ScheduleLogItem key={log.id} log={log} isRetired={retiredIDs[scheduleMatchID]?.isRetired} />
-                        )
-                    
-                })}
+                {   
+                    isLoading ? 
+                        <React.Fragment>
+                            <ScheduleLogItemLoader />
+                            <ScheduleLogItemLoader />
+                            <ScheduleLogItemLoader />
+                        </React.Fragment>                
+                    :
+                        filteredSchedulesLogs.map((log: ScheduleLogTypes) => {
+                            const scheduleMatchID = retiredIDs.findIndex((retired: ScheduleTypes) => retired.id === log.scheduleId)
+                                return (
+                                    <ScheduleLogItem key={log.id} log={log} isRetired={retiredIDs[scheduleMatchID]?.isRetired} />
+                                )
+                            
+                        })
+                }
             </div>
         </div>
 

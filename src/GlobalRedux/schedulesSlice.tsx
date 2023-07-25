@@ -5,12 +5,14 @@ interface SchedulesState {
   data: ScheduleTypes[];
   searchValue: string;
   filteredScheduleID: number | null
+  isLoadingSchedules: boolean
 }
 
 const initialState: SchedulesState = {
   data: [],
   searchValue: '',
-  filteredScheduleID: null
+  filteredScheduleID: null,
+  isLoadingSchedules: false
 };
 
 const schedulesSlice = createSlice({
@@ -19,6 +21,9 @@ const schedulesSlice = createSlice({
   reducers: {
     setSchedules: (state, action: PayloadAction<ScheduleTypes[]>) => {
       state.data = action.payload;
+    },
+    setIsLoadingSchedules: (state, action: PayloadAction<boolean>) => {
+      state.isLoadingSchedules = action.payload;
     },
     setSearchValue: (state, action: PayloadAction<string>) => {
       state.searchValue = action.payload;
@@ -29,5 +34,5 @@ const schedulesSlice = createSlice({
   },
 });
 
-export const { setSchedules, setSearchValue, setScheduleID } = schedulesSlice.actions;
+export const { setSchedules, setIsLoadingSchedules, setSearchValue, setScheduleID } = schedulesSlice.actions;
 export default schedulesSlice.reducer;
