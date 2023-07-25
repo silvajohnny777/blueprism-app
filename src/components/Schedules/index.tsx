@@ -10,6 +10,7 @@ const Schedules: React.FC = () => {
   const dispatch = useDispatch();
   const schedules = useSelector((state: RootState) => state.schedules.data);
   const isLoading = useSelector((state: RootState) => state.schedules.isLoadingSchedules);
+  const hadAnAPIError = useSelector((state: RootState) => state.schedules.scheduleError);
   const scheduleSearch = useSelector((state: RootState) => state.schedules.searchValue);
 
   const filteredSchedules = scheduleSearch.length > 0 ? 
@@ -42,15 +43,18 @@ const Schedules: React.FC = () => {
             <ScheduleItemLoader />
           </React.Fragment>          
         :
-          filteredSchedules.length > 0 ? 
-            filteredSchedules.map((schedule: ScheduleTypes) => (        
-              <ScheduleItem key={schedule.id} schedule={schedule} />
-            ))
+          hadAnAPIError ?
+            hadAnAPIError
           :
-            scheduleSearch.length > 0 ?
-              <p className="break-words">Schedule <span className="font-bold">{scheduleSearch}</span> not found!</p>
-          :
-            'No schedules'
+            filteredSchedules.length > 0 ? 
+              filteredSchedules.map((schedule: ScheduleTypes) => (        
+                <ScheduleItem key={schedule.id} schedule={schedule} />
+              ))
+            :
+              scheduleSearch.length > 0 ?
+                <p className="break-words">Schedule <span className="font-bold">{scheduleSearch}</span> not found!</p>
+            :
+              'No schedules'
       }
       </div>
     </div>

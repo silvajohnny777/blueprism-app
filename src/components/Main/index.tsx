@@ -13,6 +13,7 @@ const Main: React.FC = () => {
 
     const schedulesLogs = useSelector((state: RootState) => state.scheduleLogs.data);
     const isLoading = useSelector((state: RootState) => state.scheduleLogs.isLoadingLogsSchedules);
+    const hadAnAPIError = useSelector((state: RootState) => state.scheduleLogs.scheduleLogsError);
     const schedules = useSelector((state: RootState) => state.schedules.data);
     const filteredScheduleID = useSelector((state: RootState) => state.schedules.filteredScheduleID);
 
@@ -63,13 +64,16 @@ const Main: React.FC = () => {
                             <ScheduleLogItemLoader />
                         </React.Fragment>                
                     :
-                        filteredSchedulesLogs.map((log: ScheduleLogTypes) => {
-                            const scheduleMatchID = retiredIDs.findIndex((retired: ScheduleTypes) => retired.id === log.scheduleId)
-                                return (
-                                    <ScheduleLogItem key={log.id} log={log} isRetired={retiredIDs[scheduleMatchID]?.isRetired} />
-                                )
-                            
-                        })
+                        hadAnAPIError ?
+                            hadAnAPIError
+                        :
+                            filteredSchedulesLogs.map((log: ScheduleLogTypes) => {
+                                const scheduleMatchID = retiredIDs.findIndex((retired: ScheduleTypes) => retired.id === log.scheduleId)
+                                    return (
+                                        <ScheduleLogItem key={log.id} log={log} isRetired={retiredIDs[scheduleMatchID]?.isRetired} />
+                                    )
+                                
+                            })
                 }
             </div>
         </div>

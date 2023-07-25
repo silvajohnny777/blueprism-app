@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useDispatch } from 'react-redux';
-import { setSchedules, setIsLoadingSchedules } from './GlobalRedux/schedulesSlice';
-import { setScheduleLogs, setIsLoadingLogsSchedules } from './GlobalRedux/scheduleLogsSlice'
+import { setSchedules, setIsLoadingSchedules, setScheduleError } from './GlobalRedux/schedulesSlice';
+import { setScheduleLogs, setIsLoadingLogsSchedules, setScheduleLogsError } from './GlobalRedux/scheduleLogsSlice'
 import Header from './components/Header';
 import Schedules from './components/Schedules';
 import Main from './components/Main';
@@ -43,11 +43,11 @@ const App:React.FC = () => {
         if (response.status === 200) {
           dispatch(setSchedules(response.data));
           dispatch(setIsLoadingSchedules(false))
-        } else {
-          alert('API Error');
         }
       } catch (error) {
-        console.error('Error fetching schedules:', error);
+        const axiosError = error as AxiosError
+        dispatch(setScheduleError(`Error: ${axiosError.message}`))
+        dispatch(setIsLoadingSchedules(false))
       }
     };
   
@@ -58,11 +58,11 @@ const App:React.FC = () => {
         if (response.status === 200) {
           dispatch(setScheduleLogs(response.data));
           dispatch(setIsLoadingLogsSchedules(false))
-        } else {
-          alert('API Error');
         }
       } catch (error) {
-        console.error('Error fetching schedule logs:', error);
+        const axiosError = error as AxiosError
+        dispatch(setScheduleLogsError(`Error: ${axiosError.message}`))
+        dispatch(setIsLoadingLogsSchedules(false))
       }
     };
 

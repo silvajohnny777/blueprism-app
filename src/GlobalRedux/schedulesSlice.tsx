@@ -6,13 +6,15 @@ interface SchedulesState {
   searchValue: string;
   filteredScheduleID: number | null
   isLoadingSchedules: boolean
+  scheduleError: string
 }
 
 const initialState: SchedulesState = {
   data: [],
   searchValue: '',
   filteredScheduleID: null,
-  isLoadingSchedules: false
+  isLoadingSchedules: false,
+  scheduleError: ''
 };
 
 const schedulesSlice = createSlice({
@@ -30,9 +32,12 @@ const schedulesSlice = createSlice({
     },
     setScheduleID: (state, action: PayloadAction<number | null>) => {
       state.filteredScheduleID = action.payload
+    },
+    setScheduleError: (state, action: PayloadAction<string>) => {
+      state.scheduleError = action.payload
     }
   },
 });
 
-export const { setSchedules, setIsLoadingSchedules, setSearchValue, setScheduleID } = schedulesSlice.actions;
+export const { setSchedules, setIsLoadingSchedules, setSearchValue, setScheduleID, setScheduleError } = schedulesSlice.actions;
 export default schedulesSlice.reducer;
