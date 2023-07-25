@@ -49,7 +49,7 @@ const ScheduleItem:React.FC<ScheduleItemTypes> = ({ schedule }) => {
         <div 
             key={id} 
             onClick={(e: React.MouseEvent<HTMLElement>) => handleClick(e, id)} 
-            className={`relative p-[5px] w-full rounded-[10px] mb-[15px] border-solid border-2 flex mr-[5px] md:mr-0 cursor-pointer hover:bg-[#ebf3f3] transition ease duration-200 ${filteredScheduleID === id ? 'bg-[#ebf3f3]' : ''}`}
+            className={`relative p-[5px] ${filteredScheduleID === id ? 'border-[#0f7dc2]' : ''} w-full rounded-[10px] mb-[15px] border-solid border-2 flex mr-[5px] md:mr-0 cursor-pointer hover:bg-[#ebf3f3] transition ease duration-200 ${filteredScheduleID === id ? 'bg-[#ebf3f3]' : ''}`}
         >
           <div className="w-[300px]">
                 <h2 className="overflow-hidden font-bold text-[16px]">{name}</h2>
