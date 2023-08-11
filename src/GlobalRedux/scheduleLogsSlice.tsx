@@ -1,22 +1,22 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ScheduleLogTypes } from '../App';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ScheduleLogTypes } from "../App";
 
 interface ScheduleLogsState {
   data: ScheduleLogTypes[];
-  searchLogValue: string
-  isLoadingLogsSchedules: boolean
-  scheduleLogsError: string
+  searchLogValue: string;
+  isLoadingLogsSchedules: boolean;
+  scheduleLogsError: string;
 }
 
 const initialState: ScheduleLogsState = {
   data: [],
-  searchLogValue: '',
+  searchLogValue: "",
   isLoadingLogsSchedules: false,
-  scheduleLogsError: ''
+  scheduleLogsError: "",
 };
 
 const scheduleLogsSlice = createSlice({
-  name: 'scheduleLogs',
+  name: "scheduleLogs",
   initialState,
   reducers: {
     setScheduleLogs: (state, action: PayloadAction<ScheduleLogTypes[]>) => {
@@ -34,5 +34,10 @@ const scheduleLogsSlice = createSlice({
   },
 });
 
-export const { setScheduleLogs, setIsLoadingLogsSchedules, setSearchLogValue, setScheduleLogsError } = scheduleLogsSlice.actions;
+export const {
+  setScheduleLogs,
+  setIsLoadingLogsSchedules,
+  setSearchLogValue,
+  setScheduleLogsError,
+} = scheduleLogsSlice.actions;
 export default scheduleLogsSlice.reducer;

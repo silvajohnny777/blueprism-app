@@ -1,4 +1,4 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite + Tailwind
 
 Blueprism App. Only UI, API required.
 
@@ -8,4 +8,4 @@ Run the commands bellow to be able to run the app.
    npm install
 
    npm run dev
-```
+``` 

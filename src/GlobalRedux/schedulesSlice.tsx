@@ -1,24 +1,24 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ScheduleTypes } from '../App';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ScheduleTypes } from "../App";
 
 interface SchedulesState {
   data: ScheduleTypes[];
   searchValue: string;
-  filteredScheduleID: number | null
-  isLoadingSchedules: boolean
-  scheduleError: string
+  filteredScheduleID: number | null;
+  isLoadingSchedules: boolean;
+  scheduleError: string;
 }
 
 const initialState: SchedulesState = {
   data: [],
-  searchValue: '',
+  searchValue: "",
   filteredScheduleID: null,
   isLoadingSchedules: false,
-  scheduleError: ''
+  scheduleError: "",
 };
 
 const schedulesSlice = createSlice({
-  name: 'schedules',
+  name: "schedules",
   initialState,
   reducers: {
     setSchedules: (state, action: PayloadAction<ScheduleTypes[]>) => {
@@ -31,13 +31,19 @@ const schedulesSlice = createSlice({
       state.searchValue = action.payload;
     },
     setScheduleID: (state, action: PayloadAction<number | null>) => {
-      state.filteredScheduleID = action.payload
+      state.filteredScheduleID = action.payload;
     },
     setScheduleError: (state, action: PayloadAction<string>) => {
-      state.scheduleError = action.payload
-    }
+      state.scheduleError = action.payload;
+    },
   },
 });
 
-export const { setSchedules, setIsLoadingSchedules, setSearchValue, setScheduleID, setScheduleError } = schedulesSlice.actions;
+export const {
+  setSchedules,
+  setIsLoadingSchedules,
+  setSearchValue,
+  setScheduleID,
+  setScheduleError,
+} = schedulesSlice.actions;
 export default schedulesSlice.reducer;

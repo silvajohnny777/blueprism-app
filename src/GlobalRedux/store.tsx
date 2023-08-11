@@ -1,6 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit';
-import schedulesReducer from './schedulesSlice';
-import scheduleLogsReducer from './scheduleLogsSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import schedulesReducer from "./schedulesSlice";
+import scheduleLogsReducer from "./scheduleLogsSlice";
 
 const store = configureStore({
   reducer: {
